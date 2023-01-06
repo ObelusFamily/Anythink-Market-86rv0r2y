@@ -49,10 +49,14 @@ class Editor extends React.Component {
 
     this.submitForm = (ev) => {
       ev.preventDefault();
+      let imageString = this.props.image;
+      if(this.props.image === undefined || this.props.image === "") {
+        imageString = process.env.PUBLIC_URL + '/placeholder.png'
+      }
       const item = {
         title: this.props.title,
         description: this.props.description,
-        image: this.props.image,
+        image: imageString,
         tagList: this.props.tagList,
       };
 
