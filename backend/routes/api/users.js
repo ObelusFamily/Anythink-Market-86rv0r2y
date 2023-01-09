@@ -78,7 +78,7 @@ router.post("/users", function(req, res, next) {
   user.username = req.body.user.username;
   user.email = req.body.user.email;
   user.setPassword(req.body.user.password);
-  user.isVerified = req.body.user.isVerified || false;
+  user.isVerified = true;
 
   user
     .save()
