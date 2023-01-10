@@ -18,6 +18,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const ItemPreview = (props) => {
+  console.log('PROPS:', props);
   const item = props.item;
 
   const handleClick = (ev) => {
@@ -53,6 +54,10 @@ const ItemPreview = (props) => {
               alt={item.seller.username}
               className="user-pic rounded-circle pr-1"
             />
+            <img
+              src="/verified_seller.svg"
+              alt="Verified Seller" />
+            <span className="card-text text-white"> TOP SELLER</span>
           </Link>
           <button className="btn btn-outline-secondary" onClick={handleClick}>
             <i className="ion-heart"></i> {item.favoritesCount}
