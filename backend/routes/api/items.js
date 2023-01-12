@@ -53,6 +53,11 @@ router.get("/", auth.optional, function(req, res, next) {
     query.tagList = { $in: [req.query.tag] };
   }
 
+  if (typeof req.query.title !== "undefined") {
+    const regex = new RegExp(req.query.title, 'i');
+    query.title = { $regex: regex };
+  }
+
   Promise.all([
     req.query.seller ? User.findOne({ username: req.query.seller }) : null,
     req.query.favorited ? User.findOne({ username: req.query.favorited }) : null
@@ -158,6 +163,7 @@ router.post("/", auth.required, function(req, res, next) {
 
 // return a item
 router.get("/:item", auth.optional, function(req, res, next) {
+  console.log('THIS IS A TEST LOG:', req);
   Promise.all([
     req.payload ? User.findById(req.payload.id) : null,
     req.item.populate("seller").execPopulate()
