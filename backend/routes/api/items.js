@@ -54,18 +54,17 @@ router.get("/", auth.optional, function(req, res, next) {
   }
 
   if (typeof req.query.title !== "undefined") {
-    query.title = { $in: [req.query.title] };
+    const regex = new RegExp(req.query.title, 'i');
+    query.title = { $regex: regex };
   }
 
   Promise.all([
     req.query.seller ? User.findOne({ username: req.query.seller }) : null,
-    req.query.favorited ? User.findOne({ username: req.query.favorited }) : null,
-    // req.query.title ? Item.findOne({ title: req.query.title }) : null
+    req.query.favorited ? User.findOne({ username: req.query.favorited }) : null
   ])
     .then(function(results) {
       var seller = results[0];
       var favoriter = results[1];
-      // var title = results[2];
 
       if (seller) {
         query.seller = seller._id;
@@ -76,10 +75,6 @@ router.get("/", auth.optional, function(req, res, next) {
       } else if (req.query.favorited) {
         query._id = { $in: [] };
       }
-
-      // if (title) {
-      //   query._id = title._id
-      // }
 
       return Promise.all([
         Item.find(query)
